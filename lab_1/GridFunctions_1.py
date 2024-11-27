@@ -32,7 +32,7 @@ for i, func in enumerate(functions):
 
             #plots
             plt.figure(figsize=(10, 6))
-            plt.plot(x_dense, y_dense, label='Исходн. функ.', color='blue')
+            plt.plot(x_dense, y_dense, label='Исходная функ.', color='blue')
             plt.plot(x, y, 'o', label=f'Расчёт с шагом h = {h}', markersize=2, color='red')
             plt.title(f'Функция: {function_names[i]} на отрезке {interval}')
             plt.xlabel('x')
