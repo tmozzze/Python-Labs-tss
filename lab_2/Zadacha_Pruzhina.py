@@ -20,7 +20,6 @@ forces = [
     {'name': 'f(t) = sin(t)', 'f_expr': sin(symbols('t')), 'f_func': lambda t: np.sin(t)}
 ]
 
-
 def analytical_solution(h, f_expr):
     t = symbols('t', real=True)
     x = Function('x')(t)
@@ -31,7 +30,6 @@ def analytical_solution(h, f_expr):
     x_t = simplify(sol.rhs)
     x_func = lambdify(t, x_t, modules=['numpy'])
     return x_func
-
 
 def numerical_solution(h, f_func):
     def ode_system(t, y):
@@ -44,29 +42,30 @@ def numerical_solution(h, f_func):
     sol = solve_ivp(ode_system, t_span, y0, t_eval=t_eval)
     return sol.t, sol.y[0]
 
-
 def plot_results(t_eval, x_analytical_under, x_num_under, x_analytical_over, x_num_over, force_name):
-    plt.figure(figsize=(12, 5))
-
-    plt.subplot(1, 2, 1)
+    # График для h^2 < 4km
+    plt.figure(figsize=(8, 6))
     plt.plot(t_eval, x_analytical_under(t_eval), label='Analytical')
     plt.plot(t_eval, x_num_under, '--', label='Numerical')
     plt.title(f'h^2 < 4km Case\n{force_name}')
     plt.xlabel('Time (s)')
     plt.ylabel('Displacement (m)')
     plt.legend()
+    plt.grid(True)
+    plt.show()
 
-    plt.subplot(1, 2, 2)
+    # График для h^2 > 4km
+    plt.figure(figsize=(8, 6))
     plt.plot(t_eval, x_analytical_over(t_eval), label='Analytical')
     plt.plot(t_eval, x_num_over, '--', label='Numerical')
     plt.title(f'h^2 > 4km Case\n{force_name}')
     plt.xlabel('Time (s)')
     plt.ylabel('Displacement (m)')
     plt.legend()
-
-    plt.tight_layout()
+    plt.grid(True)
     plt.show()
 
+# Основной цикл, для каждого случая силы
 for force in forces:
     force_name = force['name']
     f_expr = force['f_expr']
